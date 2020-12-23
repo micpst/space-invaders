@@ -24,7 +24,7 @@ class Screen:
     font_50 = pygame.font.SysFont('comicsans', 50)
     font_40 = pygame.font.SysFont('comicsans', 40)
 
-    config_file = open('_config.yaml', 'r')
+    config_file = open('config.yaml', 'r')
     game_config = yaml.safe_load(config_file)
 
     y1 = 0
@@ -44,7 +44,7 @@ class Screen:
             self.y2 = -self.height
 
     def save(self):
-        with open('_config.yaml', 'w') as f:
+        with open('config.yaml', 'w') as f:
             yaml.dump(self.game_config, f)
 
 class MainMenu(Screen):

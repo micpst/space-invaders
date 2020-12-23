@@ -1,8 +1,0 @@
-game:
-  highest_score: 850
-settings:
-  enemy_velocity: 3
-  laser_velocity: 7
-  player_color: yellow
-  player_velocity: 6
-  wave_length: 5
