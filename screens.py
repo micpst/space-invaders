@@ -3,8 +3,8 @@ import sys
 import yaml
 import pygame
 
-from objects import Enemy, YELLOW_SPACE_SHIP
 from engine import GameEngine
+from assets import *
 
 pygame.font.init()
 
@@ -16,8 +16,8 @@ class Screen:
     width, height = resolution
     window = pygame.display.set_mode(resolution)
     
-    background = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'background-black.png')), resolution)
-    title = pygame.transform.scale(pygame.image.load(os.path.join('assets', 'logo.png')), (450, 175))
+    background = pygame.transform.scale(BACKGROUND, resolution)
+    title = pygame.transform.scale(LOGO, (450, 175))
     
     font_70 = pygame.font.SysFont('comicsans', 70)
     font_60 = pygame.font.SysFont('comicsans', 60)
@@ -202,15 +202,13 @@ class Game(Screen):
     def __init__(self):
         super().__init__()
         self.engine = GameEngine(self.resolution, **self.game_config['settings'])
-        self.full_hearth = pygame.image.load(os.path.join('assets', 'hearth_full.png'))
-        self.empty_hearth = pygame.image.load(os.path.join('assets', 'hearth_empty.png'))
         self.lost_overrun = 0
         self.running = True
 
     @property
     def lives(self):
-        active_lives = [self.full_hearth] * self.engine.lives
-        lost_lives = [self.empty_hearth] * (self.engine.max_lives - self.engine.lives)     
+        active_lives = [FULL_HEARTH] * self.engine.lives
+        lost_lives = [EMPTY_HEARTH] * (self.engine.max_lives - self.engine.lives)     
         return active_lives + lost_lives
 
     @property
