@@ -1,7 +1,7 @@
 import sys
 import pygame
 
-from states import *
+from states import MainMenuState
 
 class SpaceInvaders:
     def __init__(self, size):		
@@ -47,5 +47,5 @@ class SpaceInvaders:
         sys.exit()
 
 if __name__ == '__main__':
-    game = SpaceInvaders((750, 750))
+    game = SpaceInvaders((600, 600))
     game.run()

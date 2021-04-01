@@ -5,7 +5,7 @@ from controllers import MenuController
 
 class MainMenuState(GameState):
     def __init__(self, game):
-        self.game = game   
+        self.game = game
         self.controller = MenuController(self.game)
 
     def on_enter(self):
