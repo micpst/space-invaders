@@ -33,7 +33,11 @@ class OptionsList(pygame.sprite.Group):
         offset = { 'up': -1, 'down': 1 }[direction]
         self.index = (self.index + offset) % len(self.sprites())   
 
-    def place(self, x, y, dy):
+    def change_text(self, text):
+        self.sprites()[self.index].change_text(text)
+
+    def place(self, center, dy):
+        x, y = center
         for sprite in self.sprites():
-            sprite.place(x, y)
+            sprite.place(center=(x, y))
             y += dy

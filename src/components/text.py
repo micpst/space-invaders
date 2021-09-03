@@ -28,8 +28,10 @@ class Text(pygame.sprite.Sprite):
         self.font_color = font_color
         self.__render()
 
-    def place(self, x, y):
-        self.rect.center = (x, y)
+    def place(self, *args, **kwargs):
+        for key in kwargs:
+            if key in dir(self.rect):
+                setattr(self.rect, key, kwargs[key])
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

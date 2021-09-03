@@ -61,5 +61,5 @@ class MenuScene(GameScene):
         x = screen_w / 2
         y = screen_h / 4
 
-        self.title.place(x=x, y=y)
-        self.options.place(x=x, y=(y + 110), dy=50)
+        self.title.place(center=(x, y))
+        self.options.place(center=(x, y + 110), dy=50)
