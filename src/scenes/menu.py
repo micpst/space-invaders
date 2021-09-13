@@ -1,6 +1,6 @@
 import pygame
 from .abc_scene import GameScene
-from components import ScrollingBackground, OptionsList, Text
+from components import Background, SelectionList, Text
 from events import CHANGE_SCENE
 from styles import *
 
@@ -8,9 +8,9 @@ class MenuScene(GameScene):
 
     def __init__(self):
         super().__init__()
-        self.background = ScrollingBackground()
+        self.background = Background()
         self.title = Text('SPACE INVADERS', XL, WHITE)
-        self.options = OptionsList(['Play', 'Settings', 'Quit'])
+        self.options = SelectionList(['Play', 'Settings', 'Quit'])
 
     def on_enter(self):
         # Get the current screen size:

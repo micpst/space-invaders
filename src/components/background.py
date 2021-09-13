@@ -1,7 +1,7 @@
 import pygame
 from assets.images import BACKGROUND
 
-class ScrollingBackground(pygame.sprite.Sprite):
+class Background(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()

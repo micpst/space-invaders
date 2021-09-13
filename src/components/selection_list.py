@@ -2,7 +2,7 @@ import pygame
 from .text import Text
 from styles import *
 
-class OptionsList(pygame.sprite.Group):
+class SelectionList(pygame.sprite.Group):
     
     def __init__(self, options=[]):
         super().__init__()

@@ -1,3 +1,3 @@
-from .options_list import OptionsList
-from .scrolling_background import ScrollingBackground
-from .text import Text
+from selection_list import SelectionList
+from background import Background
+from text import Text
