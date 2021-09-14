@@ -1,43 +1,42 @@
-import pygame
-from .text import Text
+import pygame as pg
 from styles import *
 
-class SelectionList(pygame.sprite.Group):
+class SelectionList(pg.sprite.Group):
     
-    def __init__(self, options=[]):
-        super().__init__()
-        self._index = 0
-        self.create_sprites(options)
+    def __init__(
+        self, 
+        sprites, 
+        fsize, 
+        fcolor, 
+        highlight_fsize, 
+        highlight_fcolor
+    ):
+        super().__init__(*sprites)
 
-    @property
-    def index(self):
-        return self._index
+        self.fsize = fsize 
+        self.fcolor = fcolor 
+        self.highlight_fsize = highlight_fsize 
+        self.highlight_fcolor = highlight_fcolor
 
-    @index.setter
-    def index(self, index):
-        self.sprites()[self.index].change_font_size(M)
-        self.sprites()[self.index].change_font_color(WHITE)
-        self.sprites()[index].change_font_size(L)
-        self.sprites()[index].change_font_color(YELLOW)
-        self._index = index
+        self.reset_focus()
 
-    def create_sprites(self, options):
-        for i, option in enumerate(options):
-            size, color = { 0: (M, WHITE), 1: (L, YELLOW) }[self.index == i]
-            self.add(Text(option, size, color))
+    def update_sprites(self):
+        # Update the color and size of the group sprites:
+        for i, sprite in enumerate(self.sprites()):
+            if self.index == i:
+                sprite.change_fcolor(self.highlight_fcolor)
+                sprite.change_fsize(self.highlight_fsize)
+            else:
+                sprite.change_fcolor(self.fcolor)
+                sprite.change_fsize(self.fsize)
 
     def reset_focus(self):
+        # Reset index value and update the group sprites:
         self.index = 0
+        self.update_sprites()
 
     def move_focus(self, direction):
+        # Change index value and update the group sprites:
         offset = { 'up': -1, 'down': 1 }[direction]
         self.index = (self.index + offset) % len(self.sprites())   
-
-    def change_text(self, text):
-        self.sprites()[self.index].change_text(text)
-
-    def place(self, center, dy):
-        x, y = center
-        for sprite in self.sprites():
-            sprite.place(center=(x, y))
-            y += dy
+        self.update_sprites()

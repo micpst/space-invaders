@@ -1,37 +1,32 @@
-import pygame
+import pygame as pg
 from assets.fonts import ARCADE_IN
 
-class Text(pygame.sprite.Sprite):
+class Text(pg.sprite.Sprite):
 
-    def __init__(self, text, font_size, font_color):
+    def __init__(self, text, fsize, fcolor):
         super().__init__()
+        
         self.text = text
-        self.font = ARCADE_IN[font_size]
-        self.font_color = font_color
+        self.font = ARCADE_IN[fsize]
+        self.fcolor = fcolor
 
-        self.image = self.font.render(self.text, 1, self.font_color)
+        # Initial render on the top left corner of the screen:
+        self.image = self.font.render(self.text, 1, self.fcolor)
         self.rect = self.image.get_rect()
 
-    def __render(self):
-        self.image = self.font.render(self.text, 1, self.font_color)
+    def _rerender(self):
+        # Render the text sprite in the same position:
+        self.image = self.font.render(self.text, 1, self.fcolor)
         self.rect = self.image.get_rect(center=self.rect.center)
 
     def change_text(self, text):
         self.text = text
-        self.__render()
+        self._rerender()
 
-    def change_font_size(self, size):
-        self.font = ARCADE_IN[size]
-        self.__render()
+    def change_fsize(self, fsize):
+        self.font = ARCADE_IN[fsize]
+        self._rerender()
 
-    def change_font_color(self, font_color):
-        self.font_color = font_color
-        self.__render()
-
-    def place(self, *args, **kwargs):
-        for key in kwargs:
-            if key in dir(self.rect):
-                setattr(self.rect, key, kwargs[key])
-
-    def draw(self, screen):
-        screen.blit(self.image, self.rect)
+    def change_fcolor(self, fcolor):
+        self.fcolor = fcolor
+        self._rerender()

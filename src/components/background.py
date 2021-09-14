@@ -1,26 +1,27 @@
-import pygame
+import pygame as pg
 from assets.images import BACKGROUND
 
-class Background(pygame.sprite.Sprite):
+class Background(pg.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, size=(1,1)):
         super().__init__()
-        self.image = BACKGROUND
+        self.resize(size)
 
     def resize(self, size):
-        self.viewport_size = size
-        w, h = self.viewport_size
+        w, h = size
+        bg_w, bg_h = BACKGROUND.get_size()
 
-        self.rects = []
-        for x in range(0, w, self.image.get_width()):
-            for y in range(-h, h, self.image.get_height()):
-                self.rects.append(self.image.get_rect(x=x, y=y))
+        cropped_img = pg.Surface((w, h))
+        for x in range(0, w, bg_w):
+            for y in range(0, h, bg_h):
+                cropped_img.blit(BACKGROUND, (x, y))
+        
+        self.image = pg.Surface((w, 2 * h))
+        self.rect = self.image.get_rect(y=-h)
 
-    def update(self, speed):
-        for rect in self.rects:
-            _, h = self.viewport_size
-            rect.y = -h if rect.y > h else rect.y + speed
+        self.image.blit(cropped_img, (0, 0))
+        self.image.blit(cropped_img, (0, h))
 
-    def draw(self, screen):
-        for rect in self.rects:
-            screen.blit(self.image, rect)
+    def update(self):
+        # Scroll the background by 1px per frame:
+        self.rect.y = (self.rect.y + 1) % (-self.rect.h / 2)
