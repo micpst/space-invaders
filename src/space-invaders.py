@@ -1,5 +1,5 @@
 import sys
-import pygame
+import pygame as pg
 
 from events import *
 from scenes import *
@@ -10,13 +10,13 @@ MIN_SCREEN_SIZE = (MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT)
 class SpaceInvaders:
   
     def __init__(self):
-        pygame.init()
+        pg.init()
 
-        pygame.display.set_mode(MIN_SCREEN_SIZE, pygame.RESIZABLE)
-        pygame.display.set_caption('Space Invaders')
+        pg.display.set_mode(MIN_SCREEN_SIZE, pg.RESIZABLE)
+        pg.display.set_caption('Space Invaders')
 
         self.fps = 60
-        self.clock = pygame.time.Clock()
+        self.clock = pg.time.Clock()
         self.running = True
   
         self.init_scenes()
@@ -25,6 +25,7 @@ class SpaceInvaders:
     def init_scenes(self):
         self.scenes = {
             'menu': MenuScene(),
+            'settings': SettingsScene(),
         }
         self.scene = None
 
@@ -37,34 +38,35 @@ class SpaceInvaders:
             self.scene.on_enter()
 
     def process_event(self, ev):
-        if ev.type is pygame.QUIT or \
-           ev.type == pygame.KEYDOWN and ev.key == pygame.K_ESCAPE:
+        if ev.type is pg.QUIT or \
+           ev.type == pg.KEYDOWN and ev.key == pg.K_ESCAPE:
             self.running = False
         
-        elif ev.type == pygame.VIDEORESIZE:
+        elif ev.type == pg.VIDEORESIZE:
             ev.w = max(ev.w, MIN_SCREEN_WIDTH)
             ev.h = max(ev.h, MIN_SCREEN_HEIGHT)
 
             # Resize without emitting event:
-            pygame.display.set_mode((ev.w, ev.h), pygame.RESIZABLE)
-            pygame.event.get(pygame.VIDEORESIZE)
+            pg.display.set_mode((ev.w, ev.h), pg.RESIZABLE)
+            pg.event.get(pg.VIDEORESIZE)
 
-        elif ev.type is CHANGE_SCENE:
+        elif ev.type == CHANGE_SCENE:
             self.change_scene(ev.scene)
 
     def start(self):
         while self.running:
-            for e in pygame.event.get(): 
+            for e in pg.event.get(): 
                 self.process_event(e)
                 self.scene.on_event(e)
 
             self.scene.update(self.clock.get_time())
-            self.scene.draw(pygame.display.get_surface())
+            self.scene.draw(pg.display.get_surface())
             
-            pygame.display.flip()
+            pg.display.flip()
             self.clock.tick(self.fps)
 
-        pygame.quit()
+        self.scene.on_exit()
+        pg.quit()
         sys.exit()
 
 if __name__ == '__main__':
