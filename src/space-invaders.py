@@ -59,7 +59,10 @@ class SpaceInvaders:
                 self.process_event(e)
                 self.scene.on_event(e)
 
-            self.scene.update(self.clock.get_time())
+            key_state = pg.key.get_pressed()
+            game_time = self.clock.get_time()
+
+            self.scene.update(game_time, key_state)
             self.scene.draw(pg.display.get_surface())
             
             pg.display.flip()

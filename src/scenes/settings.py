@@ -42,7 +42,7 @@ class SettingsScene(GameScene):
             if ev.key is pg.K_RETURN:
                 pg.event.post(pg.event.Event(CHANGE_SCENE, scene='menu'))
        
-    def update(self, dt_ms):
+    def update(self, dt_ms, key_state):
         # Update all scene sprites:
         self.all.update()
 

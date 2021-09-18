@@ -86,7 +86,7 @@ class MenuScene(GameScene):
                     2: pg.event.Event(pg.QUIT)
                 }[self.options.index])
 
-    def update(self, dt_ms):
+    def update(self, dt_ms, key_state):
         # Update all scene sprites:
         self.all.update()
 

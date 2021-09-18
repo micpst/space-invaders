@@ -19,7 +19,7 @@ class GameScene(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def update(self, dt_ms):
+    def update(self, dt_ms, key_state):
         pass
 
     def draw(self, screen):
