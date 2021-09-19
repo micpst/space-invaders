@@ -43,6 +43,9 @@ class MenuScene(GameScene):
             highlight_fcolor=YELLOW
         )
 
+        self.delay_ms = 0
+        self.key_down = False
+
         # Register all scene sprites:
         self.all.add(
             self.background, 
@@ -71,24 +74,43 @@ class MenuScene(GameScene):
             self.place_sprites(ev.w, ev.h)
 
         elif ev.type == pg.KEYDOWN:
-            # Move the selection up or down:
-            if ev.key == pg.K_UP:
-                self.options.move_focus('up')
+            if ev.key in (pg.K_UP, pg.K_DOWN):
+                # Move the selection up or down:
+                direction = -1 if ev.key == pg.K_UP else 1
+                self.options.move_focus(direction)
+                
+                # Start listening for key state after 750 ms:
+                self.key_down = True
+                self.delay_ms = 750
 
-            elif ev.key == pg.K_DOWN:
-                self.options.move_focus('down')
-            
-            # Emit an event based on the selected option:
             elif ev.key is pg.K_RETURN:    
+                # Emit an event based on the selected option:
+                selected_sprite = self.options.selected_sprite()
                 pg.event.post({
-                    0: pg.event.Event(CHANGE_SCENE, scene='gameplay'),
-                    1: pg.event.Event(CHANGE_SCENE, scene='settings'),
-                    2: pg.event.Event(pg.QUIT)
-                }[self.options.index])
+                    self.play: pg.event.Event(CHANGE_SCENE, scene='gameplay'),
+                    self.settings: pg.event.Event(CHANGE_SCENE, scene='settings'),
+                    self.quit: pg.event.Event(pg.QUIT)
+                }[selected_sprite])
+
+        elif ev.type == pg.KEYUP and ev.key in (pg.K_UP, pg.K_DOWN):
+            # Stop listening for key state:
+            self.key_down = False
 
     def update(self, dt_ms, key_state):
         # Update all scene sprites:
         self.all.update()
+
+        if self.key_down:
+            if self.delay_ms <= 0:
+                # Move the selection up or down:
+                direction = key_state[pg.K_DOWN] - key_state[pg.K_UP]
+                self.options.move_focus(direction)
+
+                # Set the delay to 200 ms:
+                self.delay_ms = 200
+            else:
+                # Count the remaining delay:
+                self.delay_ms -= dt_ms
 
     def place_sprites(self, screen_w, screen_h):
         # Resize the background:

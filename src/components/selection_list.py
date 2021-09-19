@@ -20,6 +20,9 @@ class SelectionList(pg.sprite.Group):
 
         self.reset_focus()
 
+    def selected_sprite(self):
+        return self.sprites()[self.index]
+
     def update_sprites(self):
         # Update the color and size of the group sprites:
         for i, sprite in enumerate(self.sprites()):
@@ -37,6 +40,5 @@ class SelectionList(pg.sprite.Group):
 
     def move_focus(self, direction):
         # Change index value and update the group sprites:
-        offset = { 'up': -1, 'down': 1 }[direction]
-        self.index = (self.index + offset) % len(self.sprites())   
+        self.index = (self.index + direction) % len(self.sprites())   
         self.update_sprites()
