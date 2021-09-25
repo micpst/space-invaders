@@ -18,7 +18,37 @@ class SelectionList(pg.sprite.Group):
         self.highlight_fsize = highlight_fsize 
         self.highlight_fcolor = highlight_fcolor
 
+        self.pressed_key = None
+        self.delay_ms = 400
+
         self.reset_focus()
+
+    def on_event(self, ev):
+        if ev.type == pg.KEYDOWN and ev.key in (pg.K_UP, pg.K_DOWN):
+            # Move the selection up or down:
+            direction = -1 if ev.key == pg.K_UP else 1
+            self.move_focus(direction)
+            
+            # Start listening for key state after 750 ms:
+            self.pressed_key = ev.key
+            self.delay_ms = 750
+
+        elif ev.type == pg.KEYUP and ev.key == self.pressed_key:
+            # Stop listening for key state:
+            self.pressed_key = None
+
+    def update(self, dt_ms, *args, **kwargs):  
+        if self.pressed_key:
+            if self.delay_ms <= 0:
+                # Move the selection up or down:
+                direction = -1 if self.pressed_key == pg.K_UP else 1
+                self.move_focus(direction)
+
+                # Set the delay to 200 ms:
+                self.delay_ms = 200
+            else:
+                # Count the remaining delay:
+                self.delay_ms -= dt_ms
 
     def selected_sprite(self):
         return self.sprites()[self.index]
