@@ -12,7 +12,7 @@ class SpaceInvaders:
     def __init__(self):
         pg.init()
 
-        pg.display.set_mode(MIN_SCREEN_SIZE, pg.RESIZABLE)
+        self.screen = pg.display.set_mode(MIN_SCREEN_SIZE, pg.RESIZABLE)
         pg.display.set_caption('Space Invaders')
 
         self.fps = 60
@@ -21,6 +21,9 @@ class SpaceInvaders:
   
         self.init_scenes()
         self.change_scene('menu')
+
+        # Change the scene background size:
+        GameScene.background.make_surface(self.screen.get_size())
 
     def init_scenes(self):
         self.scenes = {
@@ -47,8 +50,11 @@ class SpaceInvaders:
             ev.h = max(ev.h, MIN_SCREEN_HEIGHT)
 
             # Resize without emitting event:
-            pg.display.set_mode((ev.w, ev.h), pg.RESIZABLE)
+            self.screen = pg.display.set_mode((ev.w, ev.h), pg.RESIZABLE)
             pg.event.get(pg.VIDEORESIZE)
+
+            # Change the scene background size:
+            GameScene.background.make_surface((ev.w, ev.h))
 
         elif ev.type == CHANGE_SCENE:
             self.change_scene(ev.scene)
@@ -63,7 +69,7 @@ class SpaceInvaders:
             game_time = self.clock.get_time()
 
             self.scene.update(game_time, key_state)
-            self.scene.draw(pg.display.get_surface())
+            self.scene.draw(self.screen)
             
             pg.display.flip()
             self.clock.tick(self.fps)

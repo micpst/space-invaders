@@ -1,6 +1,6 @@
 import pygame as pg
 from .abc_scene import GameScene
-from components import Background, SelectionList, Text
+from components import SelectionList, Text
 from events import CHANGE_SCENE
 from styles import *
 
@@ -8,8 +8,7 @@ class MenuScene(GameScene):
 
     def __init__(self):
         super().__init__()
-
-        self.background = Background()
+        
         self.title = Text(
             text='SPACE INVADERS', 
             fsize=XL, 
@@ -43,16 +42,9 @@ class MenuScene(GameScene):
             highlight_fcolor=YELLOW
         )
 
-        # Register all scene sprites:
-        self.all.add(
-            self.background, 
-            self.title, 
-            self.play, 
-            self.settings, 
-            self.quit
-        )
-
     def on_enter(self):
+        super().on_enter()
+
         # Get the current screen size:
         screen_w, screen_h = pg.display.get_surface().get_size()
 
@@ -61,9 +53,6 @@ class MenuScene(GameScene):
         
         # Reset the cursor on the option sprites:
         self.options.reset_focus()
-
-    def on_exit(self):
-        pass
 
     def on_event(self, ev):
         if ev.type == pg.VIDEORESIZE:
@@ -87,9 +76,6 @@ class MenuScene(GameScene):
         self.options.update(dt_ms)
 
     def place_sprites(self, screen_w, screen_h):
-        # Resize the background:
-        self.background.resize((screen_w, screen_h))
-        
         # Setup the title position:
         x = screen_w / 2
         y = screen_h / 4

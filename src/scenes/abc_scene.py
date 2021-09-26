@@ -1,18 +1,20 @@
 import pygame as pg
 from abc import ABCMeta, abstractmethod
+from components import Background
 
 class GameScene(metaclass=ABCMeta):
 
-    def __init__(self):
-        self.all = pg.sprite.Group()
+    background = Background()
+    all = pg.sprite.LayeredUpdates(background, layer=0)
 
-    @abstractmethod
     def on_enter(self):
-        pass
+        # Add all scene sprites:
+        scene_sprites = self.__dict__.values()
+        self.all.add(scene_sprites, layer=1)
     
-    @abstractmethod
     def on_exit(self):
-        pass
+        # Remove all scene sprites: 
+        self.all.remove_sprites_of_layer(1)
 
     @abstractmethod
     def on_event(self, ev):

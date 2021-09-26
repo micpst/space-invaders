@@ -1,6 +1,7 @@
 import pygame as pg
 from .abc_scene import GameScene
-from components import Background, Text
+from components import Text
+from config import SETTINGS
 from events import CHANGE_SCENE
 from styles import *
 
@@ -8,48 +9,42 @@ class SettingsScene(GameScene):
 
     def __init__(self):
         super().__init__()
-
-        self.background = Background()
+        
         self.title = Text(
             text='SETTINGS', 
             fsize=XL, 
             fcolor=WHITE
         )
 
-        # Register all scene sprites:
-        self.all.add(
-            self.background, 
-            self.title
-        )
-
     def on_enter(self):
+        super().on_enter()
+
+        # Load current settings:
+        SETTINGS.load()
+        
         # Get the current screen size:
         screen_w, screen_h = pg.display.get_surface().get_size()
 
         # Update sprite positions:
         self.place_sprites(screen_w, screen_h)
 
-    def on_exit(self):
-        pass
-
     def on_event(self, ev):
         if ev.type == pg.VIDEORESIZE:
             # Update sprite positions:
             self.place_sprites(ev.w, ev.h)
 
-        elif ev.type == pg.KEYDOWN:
-            # Save current settings and move to the menu scene:
-            if ev.key is pg.K_RETURN:
-                pg.event.post(pg.event.Event(CHANGE_SCENE, scene='menu'))
+        elif ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
+            # Save current settings:
+            SETTINGS.save()
+
+            # Go to the menu scene:
+            pg.event.post(pg.event.Event(CHANGE_SCENE, scene='menu'))
        
     def update(self, dt_ms, key_state):
         # Update all scene sprites:
-        self.all.update()
+        self.all.update(dt_ms)
 
     def place_sprites(self, screen_w, screen_h):
-        # Resize the background:
-        self.background.resize((screen_w, screen_h))
-        
         # Setup the title position:
         x = screen_w / 2
         y = screen_h / 4
