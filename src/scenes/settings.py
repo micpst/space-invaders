@@ -1,6 +1,6 @@
 import pygame as pg
 from .abc_scene import GameScene
-from components import Text
+from components import *
 from config import SETTINGS
 from events import CHANGE_SCENE
 from styles import *
@@ -14,6 +14,27 @@ class SettingsScene(GameScene):
             text='SETTINGS', 
             fsize=XL, 
             fcolor=WHITE
+        )
+        self.name_label = Text(
+            text='NAME',
+            fsize=S,
+            fcolor=WHITE
+        )
+        self.difficulty_label = Text(
+            text='DIFFICULTY',
+            fsize=S,
+            fcolor=WHITE
+        )
+        self.ship_label = Text(
+            text='PLAYER SHIP',
+            fsize=S,
+            fcolor=WHITE
+        )
+
+        self.label_column = pg.sprite.Group(
+            self.name_label,
+            self.difficulty_label,
+            self.ship_label
         )
 
     def on_enter(self):
@@ -51,3 +72,12 @@ class SettingsScene(GameScene):
 
         # Place the title sprite:
         self.title.rect.center = (x, y)
+        
+        # Set the position of the labels in the left column:
+        x = screen_w / 8
+        y += 110
+        dy = 50
+
+        for sprite in self.label_column:
+            sprite.rect.midleft = (x, y)
+            y += dy
