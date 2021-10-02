@@ -8,7 +8,11 @@ class TextInput(Text):
 
         self.max_width = max_width
         self.pressed_key = None
+        self.blink_ms = 500
         self.delay_ms = 400
+
+        self.cursor_visible = True
+        self.cursor_width = 3
     
     def _rerender(self):
         # Render the text sprite in the same position:
@@ -21,7 +25,18 @@ class TextInput(Text):
         if self.text_rect.w > self.max_width:
             self.text_rect.right = self.max_width
 
-        self.image.blit(self.text_image, self.text_rect)      
+        self.image.blit(self.text_image, self.text_rect)  
+
+    def _rerender_cursor(self):
+        cursor_x = min(self.text_rect.w, self.max_width - self.cursor_width)
+        color = self.fcolor if self.cursor_visible else (0, 0, 0, 0)
+        
+        self.cursor_rect = pg.Rect((cursor_x, 0), (self.cursor_width, self.text_rect.h))
+        self.image.fill(color, self.cursor_rect)
+
+    def change_text(self, text):
+        super().change_text(text)
+        self.cursor_visible = True
 
     def on_event(self, ev):
         if ev.type == pg.TEXTINPUT:
@@ -37,6 +52,14 @@ class TextInput(Text):
             self.delay_ms = 400
 
     def update(self, dt_ms, *args, **kwargs):   
+        if self.blink_ms <= 0:
+            self.blink_ms = 500
+            self.cursor_visible ^= True
+        else:
+            self.blink_ms -= dt_ms
+    
+        self._rerender_cursor()
+
         if self.pressed_key:
             if self.delay_ms <= 0:
                 if self.pressed_key.key == pg.K_BACKSPACE:
