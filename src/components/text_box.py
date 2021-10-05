@@ -1,7 +1,7 @@
 import pygame as pg
 from .text import Text
 
-class TextInput(Text):
+class TextBox(Text):
 
     def __init__(self, text, fsize, fcolor, max_width=3):
         super().__init__(text, fsize, fcolor)
@@ -15,28 +15,31 @@ class TextInput(Text):
         self.cursor_width = 3
     
     def _rerender(self):
-        # Render the text sprite in the same position:
+        # Render the text surface:
         self.text_image = self.font.render(self.text, 1, self.fcolor)
-        self.text_rect = self.text_image.get_rect()
+        self.text_rect = self.text_image.get_rect(right=min(self.text_image.get_width(), self.max_width))
 
+        # Create sprite surface:
         self.image = pg.Surface((self.max_width, self.text_rect.h), pg.SRCALPHA)
         self.rect = self.image.get_rect(midright=self.rect.midright)
-
-        if self.text_rect.w > self.max_width:
-            self.text_rect.right = self.max_width
-
+    
         self.image.blit(self.text_image, self.text_rect)  
 
     def _rerender_cursor(self):
-        cursor_x = min(self.text_rect.w, self.max_width - self.cursor_width)
+        # Setup cursor attributes:
+        x = min(self.text_rect.w, self.max_width - self.cursor_width)
         color = self.fcolor if self.cursor_visible else (0, 0, 0, 0)
         
-        self.cursor_rect = pg.Rect((cursor_x, 0), (self.cursor_width, self.text_rect.h))
+        # Create the cursor rect and blit the cursor on sprite surface:
+        self.cursor_rect = pg.Rect((x, 0), (self.cursor_width, self.rect.h))
         self.image.fill(color, self.cursor_rect)
 
     def change_text(self, text):
         super().change_text(text)
+        
+        # Update cursor:
         self.cursor_visible = True
+        self._rerender_cursor()
 
     def on_event(self, ev):
         if ev.type == pg.TEXTINPUT:
@@ -47,18 +50,19 @@ class TextInput(Text):
             self.pressed_key = ev
             self.delay_ms = 400
     
-        elif ev.type == pg.KEYUP and self.pressed_key and self.pressed_key.key == ev.key:
+        elif ev.type == pg.KEYUP and ev.key == pg.K_BACKSPACE:
             self.pressed_key = None
             self.delay_ms = 400
 
     def update(self, dt_ms, *args, **kwargs):   
         if self.blink_ms <= 0:
             self.blink_ms = 500
+
+            # Update cursor:
             self.cursor_visible ^= True
+            self._rerender_cursor()
         else:
             self.blink_ms -= dt_ms
-    
-        self._rerender_cursor()
 
         if self.pressed_key:
             if self.delay_ms <= 0:

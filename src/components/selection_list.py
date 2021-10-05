@@ -25,22 +25,22 @@ class SelectionList(pg.sprite.Group):
 
     def on_event(self, ev):
         if ev.type == pg.KEYDOWN and ev.key in (pg.K_UP, pg.K_DOWN):
-            # Move the selection up or down:
+            # Move focus up or down:
             direction = -1 if ev.key == pg.K_UP else 1
             self.move_focus(direction)
             
-            # Start listening for key state after 750 ms:
+            # Start focus updating after 750 ms:
             self.pressed_key = ev.key
             self.delay_ms = 750
 
-        elif ev.type == pg.KEYUP and ev.key == self.pressed_key:
-            # Stop listening for key state:
+        elif ev.type == pg.KEYUP and ev.key in (pg.K_UP, pg.K_DOWN):
+            # Stop focus updating:
             self.pressed_key = None
 
     def update(self, dt_ms, *args, **kwargs):  
         if self.pressed_key:
             if self.delay_ms <= 0:
-                # Move the selection up or down:
+                # Move focus up or down:
                 direction = -1 if self.pressed_key == pg.K_UP else 1
                 self.move_focus(direction)
 
@@ -64,11 +64,11 @@ class SelectionList(pg.sprite.Group):
                 sprite.change_fsize(self.fsize)
 
     def reset_focus(self):
-        # Reset index value and update the group sprites:
+        # Reset index value and update group sprites:
         self.index = 0
         self.update_sprites()
 
     def move_focus(self, direction):
-        # Change index value and update the group sprites:
+        # Change index value and update group sprites:
         self.index = (self.index + direction) % len(self.sprites())   
         self.update_sprites()

@@ -31,7 +31,7 @@ class SettingsScene(GameScene):
             fcolor=WHITE
         )
 
-        self.name_input = TextInput(
+        self.name_input = TextBox(
             text='',
             fsize=S,
             fcolor=WHITE,
