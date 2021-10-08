@@ -1,9 +1,10 @@
 import pygame as pg
 from assets.fonts import ARCADE_IN
+from styles import *
 
 class Text(pg.sprite.Sprite):
 
-    def __init__(self, text, fsize, fcolor):
+    def __init__(self, text='', fsize=M, fcolor=WHITE):
         super().__init__()
         
         self.text = text

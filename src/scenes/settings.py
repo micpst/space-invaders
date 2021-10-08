@@ -10,26 +10,10 @@ class SettingsScene(GameScene):
     def __init__(self):
         super().__init__()
         
-        self.title = Text(
-            text='SETTINGS', 
-            fsize=XL, 
-            fcolor=WHITE
-        )
-        self.name_label = Text(
-            text='NAME',
-            fsize=S,
-            fcolor=WHITE
-        )
-        self.difficulty_label = Text(
-            text='DIFFICULTY',
-            fsize=S,
-            fcolor=WHITE
-        )
-        self.ship_label = Text(
-            text='PLAYER SHIP',
-            fsize=S,
-            fcolor=WHITE
-        )
+        self.title = Text(text='SETTINGS', fsize=XL)
+        self.name_label = Text(text='NAME', fsize=S)
+        self.difficulty_label = Text(text='DIFFICULTY', fsize=S)
+        self.ship_label = Text(text='PLAYER SHIP', fsize=S)
 
         self.name_input = TextBox(
             text='',
@@ -59,11 +43,9 @@ class SettingsScene(GameScene):
 
         # Load current settings:
         SETTINGS.load()
-        
-        # Get the current screen size:
-        screen_w, screen_h = pg.display.get_surface().get_size()
 
         # Update sprite positions:
+        screen_w, screen_h = pg.display.get_surface().get_size()
         self.place_sprites(screen_w, screen_h)
 
         # Reset the cursor on the option sprites:

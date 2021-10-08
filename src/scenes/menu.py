@@ -9,33 +9,13 @@ class MenuScene(GameScene):
     def __init__(self):
         super().__init__()
         
-        self.title = Text(
-            text='SPACE INVADERS', 
-            fsize=XL, 
-            fcolor=WHITE
-        )
-        self.play = Text(
-            text='PLAY', 
-            fsize=M, 
-            fcolor=WHITE
-        )
-        self.settings = Text(
-            text='SETTINGS', 
-            fsize=M, 
-            fcolor=WHITE
-        )
-        self.quit = Text(
-            text='QUIT', 
-            fsize=M, 
-            fcolor=WHITE
-        )
+        self.title = Text(text='SPACE INVADERS', fsize=XL)
+        self.play = Text(text='PLAY')
+        self.settings = Text(text='SETTINGS')
+        self.quit = Text(text='QUIT')
 
         self.options = SelectionList(
-            sprites=[
-                self.play, 
-                self.settings, 
-                self.quit
-            ],
+            sprites=[self.play, self.settings, self.quit],
             fsize=M, 
             fcolor=WHITE,
             highlight_fsize=L, 
@@ -45,10 +25,8 @@ class MenuScene(GameScene):
     def on_enter(self):
         super().on_enter()
 
-        # Get the current screen size:
-        screen_w, screen_h = pg.display.get_surface().get_size()
-
         # Update sprite positions:
+        screen_w, screen_h = pg.display.get_surface().get_size()
         self.place_sprites(screen_w, screen_h)
         
         # Reset the cursor on the option sprites:
