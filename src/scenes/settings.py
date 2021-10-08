@@ -15,12 +15,7 @@ class SettingsScene(GameScene):
         self.difficulty_label = Text(text='DIFFICULTY', fsize=S)
         self.ship_label = Text(text='PLAYER SHIP', fsize=S)
 
-        self.name_input = TextBox(
-            text='',
-            fsize=S,
-            fcolor=WHITE,
-            max_width=200
-        )
+        self.name_input = TextBox()
 
         self.label_column = pg.sprite.Group(
             self.name_label,
@@ -93,7 +88,9 @@ class SettingsScene(GameScene):
         # Set the position of the inputs in the right column:
         x = screen_w - x
         y = (screen_h / 4) + 110
+        max_w = screen_w / 3.5
         
         for sprite in self.input_column:
+            sprite.rect.w = max_w
             sprite.rect.midright = (x, y)
             y += dy
