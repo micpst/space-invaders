@@ -14,13 +14,11 @@ class MenuScene(GameScene):
         self.settings = Text(text='SETTINGS')
         self.quit = Text(text='QUIT')
 
-        self.options = SelectionList(
-            sprites=[self.play, self.settings, self.quit],
-            fsize=M, 
-            fcolor=WHITE,
-            highlight_fsize=L, 
-            highlight_fcolor=YELLOW
-        )
+        self.options = SelectionList([
+            self.play, 
+            self.settings, 
+            self.quit
+        ])
 
     def on_enter(self):
         super().on_enter()

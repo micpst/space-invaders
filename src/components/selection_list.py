@@ -5,11 +5,11 @@ class SelectionList(pg.sprite.Group):
     
     def __init__(
         self, 
-        sprites, 
-        fsize, 
-        fcolor, 
-        highlight_fsize, 
-        highlight_fcolor
+        sprites=[], 
+        fsize=M, 
+        fcolor=WHITE, 
+        highlight_fsize=L, 
+        highlight_fcolor=YELLOW
     ):
         super().__init__(*sprites)
 

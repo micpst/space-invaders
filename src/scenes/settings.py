@@ -32,10 +32,8 @@ class SettingsScene(GameScene):
             sprites=[
                 self.name_input,
             ],
-            fsize=S, 
-            fcolor=WHITE,
-            highlight_fsize=S, 
-            highlight_fcolor=YELLOW
+            fsize=S,
+            highlight_fsize=S
         )
 
     def on_enter(self):
@@ -43,7 +41,7 @@ class SettingsScene(GameScene):
 
         # Load current settings:
         SETTINGS.load()
-
+    
         # Update sprite positions:
         screen_w, screen_h = pg.display.get_surface().get_size()
         self.place_sprites(screen_w, screen_h)
