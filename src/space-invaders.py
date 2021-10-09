@@ -45,16 +45,23 @@ class SpaceInvaders:
            ev.type == pg.KEYDOWN and ev.key == pg.K_ESCAPE:
             self.running = False
         
-        elif ev.type == pg.VIDEORESIZE:
-            ev.w = max(ev.w, MIN_SCREEN_WIDTH)
-            ev.h = max(ev.h, MIN_SCREEN_HEIGHT)
+        elif ev.type == pg.KEYDOWN and ev.key == pg.K_f:
+            # Toggle fullscreen mode:
+            size = MIN_SCREEN_SIZE if self.screen.get_flags() & pg.FULLSCREEN else (0, 0)
+            self.screen = pg.display.set_mode(size, self.screen.get_flags() ^ pg.FULLSCREEN)
 
-            # Resize without emitting event:
-            self.screen = pg.display.set_mode((ev.w, ev.h), pg.RESIZABLE)
+        elif ev.type == pg.WINDOWSIZECHANGED:
+            # Validate screen size:
+            ev.x = max(ev.x, MIN_SCREEN_WIDTH)
+            ev.y = max(ev.y, MIN_SCREEN_HEIGHT)
+ 
+            # Resize without emitting events:
+            self.screen = pg.display.set_mode((ev.x, ev.y), self.screen.get_flags())
+            pg.event.get(pg.WINDOWSIZECHANGED)
             pg.event.get(pg.VIDEORESIZE)
 
             # Change the scene background size:
-            GameScene.background.make_surface((ev.w, ev.h))
+            GameScene.background.make_surface((ev.x, ev.y))
 
         elif ev.type == CHANGE_SCENE:
             self.change_scene(ev.scene)

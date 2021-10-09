@@ -10,19 +10,23 @@ class SettingsScene(GameScene):
     def __init__(self):
         super().__init__()
         
-        self.title = Text(text='SETTINGS', fsize=XL)
-        self.name_label = Text(text='NAME', fsize=S)
-        self.difficulty_label = Text(text='DIFFICULTY', fsize=S)
-        self.ship_label = Text(text='PLAYER SHIP', fsize=S)
+        # Scene title:
+        self.title = Text('SETTINGS', XL)
 
+        # Label column:
+        self.name_label = Text('NAME', S)
+        self.difficulty_label = Text('DIFFICULTY', S)
+        self.ship_label = Text('PLAYER SHIP', S)
+
+        # Input column:
         self.name_input = TextBox()
 
+        # Scene groups:
         self.label_column = pg.sprite.Group(
             self.name_label,
             self.difficulty_label,
             self.ship_label
         )
-
         self.input_column = SelectionList(
             sprites=[
                 self.name_input,
@@ -48,9 +52,9 @@ class SettingsScene(GameScene):
         self.name_input.change_text(SETTINGS.player_name)
 
     def on_event(self, ev):
-        if ev.type == pg.VIDEORESIZE:
+        if ev.type == pg.WINDOWSIZECHANGED:
             # Update sprite positions:
-            self.place_sprites(ev.w, ev.h)
+            self.place_sprites(ev.x, ev.y)
 
         elif ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
             # Save current settings:

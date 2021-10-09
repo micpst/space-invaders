@@ -1,6 +1,6 @@
 import pygame as pg
 from .abc_scene import GameScene
-from components import SelectionList, Text
+from components import *
 from events import CHANGE_SCENE
 from styles import *
 
@@ -9,11 +9,15 @@ class MenuScene(GameScene):
     def __init__(self):
         super().__init__()
         
-        self.title = Text(text='SPACE INVADERS', fsize=XL)
-        self.play = Text(text='PLAY')
-        self.settings = Text(text='SETTINGS')
-        self.quit = Text(text='QUIT')
+        # Scene title:
+        self.title = Text('SPACE INVADERS', XL)
 
+        # Menu options:
+        self.play = Text('PLAY')
+        self.settings = Text('SETTINGS')
+        self.quit = Text('QUIT')
+
+        # Scene group:
         self.options = SelectionList([
             self.play, 
             self.settings, 
@@ -31,9 +35,9 @@ class MenuScene(GameScene):
         self.options.reset_focus()
 
     def on_event(self, ev):
-        if ev.type == pg.VIDEORESIZE:
+        if ev.type == pg.WINDOWSIZECHANGED:
             # Update sprite positions:
-            self.place_sprites(ev.w, ev.h)
+            self.place_sprites(ev.x, ev.y)
 
         elif ev.type == pg.KEYDOWN and ev.key is pg.K_RETURN:
             # Emit an event based on the selected option:
