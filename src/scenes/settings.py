@@ -1,5 +1,5 @@
 import pygame as pg
-from .abc_scene import Scene
+from .scene import Scene
 from components import *
 from config import SETTINGS
 from events import CHANGE_SCENE
@@ -44,10 +44,6 @@ class SettingsScene(Scene):
 
         # Load current settings:
         SETTINGS.load()
-    
-        # Update sprite positions:
-        screen_w, screen_h = pg.display.get_surface().get_size()
-        self.place_sprites(screen_w, screen_h)
 
         # Reset the cursor on the option sprites:
         self.input_column.reset_focus()
@@ -56,11 +52,9 @@ class SettingsScene(Scene):
         self.name_input.change_text(SETTINGS.player_name)
 
     def on_event(self, ev):
-        if ev.type == pg.WINDOWSIZECHANGED:
-            # Update sprite positions:
-            self.place_sprites(ev.x, ev.y)
+        super().on_event(ev)
 
-        elif ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
+        if ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
             # Save current settings:
             SETTINGS.save()
 
@@ -72,11 +66,10 @@ class SettingsScene(Scene):
         selected_sprite.on_event(ev)
 
     def update(self, dt_ms, key_state):
-        # Update all scene sprites:
-        self.all.update(dt_ms)
+        super().update(dt_ms, key_state)
         self.input_column.update(dt_ms)
 
-    def place_sprites(self, screen_w, screen_h):
+    def resize(self, screen_w, screen_h):
         # Setup the title position:
         x = screen_w / 2
         y = screen_h / 4
