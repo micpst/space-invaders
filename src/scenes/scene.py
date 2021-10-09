@@ -1,5 +1,5 @@
 import pygame as pg
-from components import Background
+from components.game import Background
 
 class Scene:
 

@@ -1,6 +1,6 @@
 import pygame as pg
 from .scene import Scene
-from components import *
+from components.ui import *
 from events import CHANGE_SCENE
 from styles import *
 
