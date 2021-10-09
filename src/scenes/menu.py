@@ -1,10 +1,10 @@
 import pygame as pg
-from .abc_scene import GameScene
+from .abc_scene import Scene
 from components import *
 from events import CHANGE_SCENE
 from styles import *
 
-class MenuScene(GameScene):
+class MenuScene(Scene):
 
     def __init__(self):
         super().__init__()
@@ -43,7 +43,7 @@ class MenuScene(GameScene):
             # Emit an event based on the selected option:
             selected_sprite = self.options.selected_sprite()
             pg.event.post({
-                self.play: pg.event.Event(CHANGE_SCENE, scene='gameplay'),
+                self.play: pg.event.Event(CHANGE_SCENE, scene='game'),
                 self.settings: pg.event.Event(CHANGE_SCENE, scene='settings'),
                 self.quit: pg.event.Event(pg.QUIT)
             }[selected_sprite])

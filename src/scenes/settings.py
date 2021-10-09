@@ -1,11 +1,11 @@
 import pygame as pg
-from .abc_scene import GameScene
+from .abc_scene import Scene
 from components import *
 from config import SETTINGS
 from events import CHANGE_SCENE
 from styles import *
 
-class SettingsScene(GameScene):
+class SettingsScene(Scene):
 
     def __init__(self):
         super().__init__()

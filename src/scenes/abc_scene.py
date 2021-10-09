@@ -2,7 +2,7 @@ import pygame as pg
 from abc import ABCMeta, abstractmethod
 from components import Background
 
-class GameScene(metaclass=ABCMeta):
+class Scene(metaclass=ABCMeta):
 
     background = Background()
     all = pg.sprite.LayeredUpdates(background, layer=0)

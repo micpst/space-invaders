@@ -23,12 +23,13 @@ class SpaceInvaders:
         self.change_scene('menu')
 
         # Change the scene background size:
-        GameScene.background.make_surface(self.screen.get_size())
+        Scene.background.make_surface(self.screen.get_size())
 
     def init_scenes(self):
         self.scenes = {
             'menu': MenuScene(),
             'settings': SettingsScene(),
+            'game': GameScene()
         }
         self.scene = None
 
@@ -61,7 +62,7 @@ class SpaceInvaders:
             pg.event.get(pg.VIDEORESIZE)
 
             # Change the scene background size:
-            GameScene.background.make_surface((ev.x, ev.y))
+            Scene.background.make_surface((ev.x, ev.y))
 
         elif ev.type == CHANGE_SCENE:
             self.change_scene(ev.scene)
