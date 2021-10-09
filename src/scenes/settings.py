@@ -20,6 +20,8 @@ class SettingsScene(GameScene):
 
         # Input column:
         self.name_input = TextBox()
+        self.difficulty_input = OptionBox(['EASY', 'MEDIUM', 'HARD'])
+        self.ship_input = OptionBox(['SPY 105'])
 
         # Scene groups:
         self.label_column = pg.sprite.Group(
@@ -30,6 +32,8 @@ class SettingsScene(GameScene):
         self.input_column = SelectionList(
             sprites=[
                 self.name_input,
+                self.difficulty_input,
+                self.ship_input
             ],
             fsize=S,
             highlight_fsize=S
