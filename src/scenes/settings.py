@@ -48,14 +48,19 @@ class SettingsScene(Scene):
         # Reset the cursor on the option sprites:
         self.input_column.reset_focus()
 
-        # Set the default placeholder:
+        # Set the defaults:
         self.name_input.change_text(SETTINGS.player_name)
+        self.difficulty_input.change_option(SETTINGS.difficulty)
+        self.ship_input.change_option(SETTINGS.player_ship)
 
     def on_event(self, ev):
         super().on_event(ev)
 
         if ev.type == pg.KEYDOWN and ev.key == pg.K_RETURN:
             # Save current settings:
+            SETTINGS.player_name = self.name_input.text
+            SETTINGS.difficulty = self.difficulty_input.text
+            SETTINGS.player_ship = self.ship_input.text
             SETTINGS.save()
 
             # Go to the menu scene:

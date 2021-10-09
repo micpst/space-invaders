@@ -57,3 +57,7 @@ class OptionBox(Text):
         # Change index value and update the group sprites:
         self.selected = (self.selected + direction) % len(self.options)   
         self.change_text(self.options[self.selected])
+
+    def change_option(self, option):
+        if option in self.options:
+            self.change_text(option)
