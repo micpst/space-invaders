@@ -22,9 +22,9 @@ class Settings:
         return cls._instance
 
     def __init__(self):
-        self.difficulty = 'normal'
-        self.player_color = 'yellow'
-        self.player_name = 'Player #1'
+        self.difficulty = 'MEDIUM'
+        self.player_name = 'Player'
+        self.player_ship = 'SPY 105'
 
     def load(self):
         with open(self._path, 'r') as f:

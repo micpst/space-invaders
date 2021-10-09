@@ -1,5 +1,5 @@
 {
-    "difficulty": "normal",
-    "player_color": "yellow",
-    "player_name": "Player #1"
+    "difficulty": "MEDIUM",
+    "player_name": "Player",
+    "player_ship": "SPY 105"
 }
