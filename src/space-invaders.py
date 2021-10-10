@@ -10,10 +10,20 @@ MIN_SCREEN_SIZE = (MIN_SCREEN_WIDTH, MIN_SCREEN_HEIGHT)
 class SpaceInvaders:
   
     def __init__(self):
+        # Initialize pygame:
         pg.init()
 
-        self.screen = pg.display.set_mode(MIN_SCREEN_SIZE, pg.RESIZABLE)
+        # Set the display mode:
+        flags = pg.RESIZABLE
+        depth = pg.display.mode_ok(MIN_SCREEN_SIZE, flags, 32)
+        self.screen = pg.display.set_mode(MIN_SCREEN_SIZE, flags, depth)
+        
+        # Create the scene background:
+        Scene.background.make_surface(self.screen.get_size())
+
+        # Decorate the game window:
         pg.display.set_caption('Space Invaders')
+        pg.mouse.set_visible(0)
 
         self.fps = 60
         self.clock = pg.time.Clock()
@@ -21,9 +31,6 @@ class SpaceInvaders:
   
         self.init_scenes()
         self.change_scene('menu')
-
-        # Change the scene background size:
-        Scene.background.make_surface(self.screen.get_size())
 
     def init_scenes(self):
         self.scenes = {
