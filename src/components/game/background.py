@@ -1,5 +1,5 @@
-import itertools
 import pygame as pg
+from itertools import product
 from assets.images import BACKGROUND
 
 class Background(pg.sprite.Sprite):
@@ -16,8 +16,7 @@ class Background(pg.sprite.Sprite):
 
         # Make a background image of tiles:
         bg_img = pg.Surface((w, h))
-        for x, y in itertools.product(range(0, w, tile_w), 
-                                      range(0, h, tile_h)):
+        for x, y in product(range(0, w, tile_w), range(0, h, tile_h)):
             bg_img.blit(BACKGROUND, (x, y))
 
         # Create scrolling surface:
